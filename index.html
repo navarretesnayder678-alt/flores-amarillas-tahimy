@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feliz Día de las Flores Amarillas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -25,31 +25,49 @@
             position: relative;
         }
 
+        /* --- PANTALLA DE INICIO CON GIRASOL MÁS GRANDE Y ANIMACIÓN DE GIRO 360° --- */
         #welcomeScreen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #000000;
+            background: radial-gradient(circle at center, #1a1200 0%, #080500 50%, #000000 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
             cursor: pointer;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 0.8s ease 0.6s, visibility 0.8s ease 0.6s;
         }
 
         #welcomeScreen.fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Aura luminosa ajustada para el nuevo tamaño del girasol */
+        .welcome-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.35) 0%, rgba(255, 140, 0, 0.15) 50%, transparent 70%);
+            border-radius: 50%;
+            animation: auraPulse 3s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes auraPulse {
+            0% { transform: scale(0.85); opacity: 0.5; }
+            100% { transform: scale(1.25); opacity: 0.9; }
         }
 
         .welcome-sunflower-container {
             position: relative;
-            width: 220px;
-            height: 220px;
+            width: 380px; /* Tamaño aumentado significativamente */
+            height: 380px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,11 +75,29 @@
         }
 
         .welcome-sunflower {
-            width: 190px;
-            height: 190px;
-            animation: pulseGlow 2.5s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+            width: 350px; /* Girasol gigante e imponente */
+            height: 350px;
+            animation: floatFlower 3.5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.75));
             z-index: 2;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), filter 1.2s ease;
+        }
+
+        /* Transición de giro 360° al interactuar */
+        #welcomeScreen.spin-out .welcome-sunflower {
+            transform: scale(1.25) rotate(360deg);
+            filter: drop-shadow(0 0 60px rgba(255, 215, 0, 1));
+        }
+
+        #welcomeScreen.spin-out .welcome-card {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        @keyframes floatFlower {
+            0% { transform: translateY(0px) rotate(-2deg) scale(0.98); }
+            100% { transform: translateY(-12px) rotate(2deg) scale(1.03); }
         }
 
         .welcome-particle {
@@ -69,37 +105,42 @@
             background: #ffea00;
             border-radius: 50%;
             pointer-events: none;
-            box-shadow: 0 0 8px #ffcc00;
-            opacity: 0.8;
-            animation: floatParticle 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 8px #ffea00;
+            animation: floatParticle 3.5s ease-in-out infinite alternate;
         }
 
         @keyframes floatParticle {
-            0% { transform: translateY(0px) scale(0.8); opacity: 0.4; }
-            100% { transform: translateY(-25px) scale(1.2); opacity: 1; }
+            0% { transform: translateY(0px) scale(0.7); opacity: 0.3; }
+            100% { transform: translateY(-35px) scale(1.3); opacity: 1; }
+        }
+
+        .welcome-card {
+            z-index: 2;
+            padding: 14px 32px;
+            background: rgba(255, 234, 0, 0.08);
+            border: 1px solid rgba(255, 234, 0, 0.35);
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 234, 0, 0.15);
+            animation: cardGlow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardGlow {
+            0% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 234, 0, 0.1); border-color: rgba(255, 234, 0, 0.25); }
+            100% { box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 234, 0, 0.35); border-color: rgba(255, 234, 0, 0.7); }
         }
 
         .welcome-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 2.2rem;
             color: #ffea00;
-            text-shadow: 0 0 12px rgba(255, 234, 0, 0.8), 0 0 25px rgba(255, 200, 0, 0.5);
-            animation: textGlow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 12px rgba(255, 234, 0, 0.8);
             letter-spacing: 1px;
             text-align: center;
-            z-index: 2;
         }
 
-        @keyframes pulseGlow {
-            0% { transform: scale(0.97); filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.5)); }
-            100% { transform: scale(1.03); filter: drop-shadow(0 0 40px rgba(255, 234, 0, 0.85)); }
-        }
-
-        @keyframes textGlow {
-            0% { opacity: 0.7; text-shadow: 0 0 8px rgba(255, 234, 0, 0.6); }
-            100% { opacity: 1; text-shadow: 0 0 20px rgba(255, 234, 0, 0.9), 0 0 35px rgba(255, 180, 0, 0.6); }
-        }
-
+        /* --- ESCENA PRINCIPAL Y COMPONENTES --- */
         #spaceCanvas {
             position: absolute;
             top: 0;
@@ -112,23 +153,22 @@
 
         .header {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 35px;
+            padding: 6px 18px;
             z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(3px);
         }
 
         .title-main {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 2.6rem;
             color: #ffea00;
-            text-shadow: 0 0 12px rgba(255, 234, 0, 0.8), 0 0 25px rgba(255, 200, 0, 0.5);
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 234, 0, 0.6);
             margin-bottom: 2px;
-        }
-
-        .title-sub {
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.7rem;
-            color: #b3e5fc;
-            text-shadow: 0 0 8px rgba(179, 229, 252, 0.6);
         }
 
         .stage {
@@ -153,7 +193,6 @@
             opacity: 0;
         }
 
-        /* Tiempos escalonados para que suban uno por uno */
         .start-animations .f1 { animation: growUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.2s; }
         .start-animations .f2 { animation: growUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 1.1s; }
         .start-animations .f3 { animation: growUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 2.0s; }
@@ -171,29 +210,14 @@
         .start-animations .sway-flower-2 { transform-origin: 200px 480px; animation: windSway2 5.2s ease-in-out infinite alternate; }
         .start-animations .sway-flower-3 { transform-origin: 200px 480px; animation: windSway3 4.8s ease-in-out infinite alternate; }
 
-        @keyframes windSway1 {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(2deg); }
-            100% { transform: rotate(-1.8deg); }
-        }
-
-        @keyframes windSway2 {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(-2.5deg); }
-            100% { transform: rotate(1.5deg); }
-        }
-
-        @keyframes windSway3 {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(1.8deg); }
-            100% { transform: rotate(-2.2deg); }
-        }
+        @keyframes windSway1 { 0% { transform: rotate(0deg); } 50% { transform: rotate(2deg); } 100% { transform: rotate(-1.8deg); } }
+        @keyframes windSway2 { 0% { transform: rotate(0deg); } 50% { transform: rotate(-2.5deg); } 100% { transform: rotate(1.5deg); } }
+        @keyframes windSway3 { 0% { transform: rotate(0deg); } 50% { transform: rotate(1.8deg); } 100% { transform: rotate(-2.2deg); } }
 
         .pink-ribbon-group { opacity: 0; }
         .start-animations .pink-ribbon-group {
             animation: fadeInRibbon 0.4s ease forwards;
             animation-delay: 5.8s;
-            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.65));
         }
 
         @keyframes fadeInRibbon { to { opacity: 1; } }
@@ -219,10 +243,6 @@
             100% { transform: scale(1.15); opacity: 1; }
         }
 
-        .stem-path, .leaf-element { filter: drop-shadow(0 0 3px rgba(116, 198, 157, 0.35)); }
-        .yellow-petals { filter: drop-shadow(0 0 4px rgba(255, 234, 0, 0.4)); }
-        .brown-center { filter: drop-shadow(0 0 3px rgba(210, 105, 30, 0.2)); }
-
         .start-animations .sway-grass-1 { transform-origin: bottom center; animation: grassWind1 3.5s ease-in-out infinite alternate; }
         .start-animations .sway-grass-2 { transform-origin: bottom center; animation: grassWind2 4.1s ease-in-out infinite alternate; }
         .start-animations .sway-grass-3 { transform-origin: bottom center; animation: grassWind3 3.2s ease-in-out infinite alternate; }
@@ -231,7 +251,26 @@
         @keyframes grassWind2 { 0% { transform: rotate(0deg); } 100% { transform: rotate(-6deg); } }
         @keyframes grassWind3 { 0% { transform: rotate(0deg); } 100% { transform: rotate(4deg); } }
 
-        .grass-layer { filter: drop-shadow(0 -6px 12px rgba(116, 198, 157, 0.6)); }
+        .g-stem { opacity: 0; transform-origin: bottom center; }
+        .start-animations .g-stem { animation: sproutDesorden 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        .start-animations .g1 { animation-delay: 0.1s; } .start-animations .g2 { animation-delay: 1.2s; }
+        .start-animations .g3 { animation-delay: 0.5s; } .start-animations .g4 { animation-delay: 2.1s; }
+        .start-animations .g5 { animation-delay: 0.3s; } .start-animations .g6 { animation-delay: 1.8s; }
+        .start-animations .g7 { animation-delay: 0.9s; } .start-animations .g8 { animation-delay: 2.5s; }
+        .start-animations .g9 { animation-delay: 0.4s; } .start-animations .g10 { animation-delay: 1.5s; }
+        .start-animations .g11 { animation-delay: 0.2s; } .start-animations .g12 { animation-delay: 2.8s; }
+        .start-animations .g13 { animation-delay: 1.1s; } .start-animations .g14 { animation-delay: 0.7s; }
+        .start-animations .g15 { animation-delay: 2.3s; } .start-animations .g16 { animation-delay: 1.6s; }
+        .start-animations .g17 { animation-delay: 0.8s; } .start-animations .g18 { animation-delay: 2.0s; }
+        .start-animations .g19 { animation-delay: 1.3s; } .start-animations .g20 { animation-delay: 2.7s; }
+        .start-animations .g21 { animation-delay: 3.2s; }
+
+        @keyframes sproutDesorden {
+            0% { opacity: 0; transform: translateY(80px) scaleY(0); }
+            40% { opacity: 1; }
+            100% { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
 
         .butterfly {
             position: absolute;
@@ -239,7 +278,6 @@
             height: 26px;
             z-index: 15;
             pointer-events: none;
-            filter: drop-shadow(0 0 4px rgba(255, 105, 180, 0.45));
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -249,34 +287,10 @@
         .butterfly-1 { top: 40%; left: 15%; animation: floatButterfly1 4.5s ease-in-out infinite alternate; }
         .butterfly-2 { top: 50%; right: 18%; animation: floatButterfly2 3.8s ease-in-out infinite alternate 0.5s; }
         .butterfly-3 { top: 30%; right: 35%; animation: floatButterfly3 5.2s ease-in-out infinite alternate 1s; }
-        .butterfly-4 { top: 22%; left: 22%; animation: floatButterfly4 4.0s ease-in-out infinite alternate 1.5s; }
-        .butterfly-5 { top: 60%; left: 38%; animation: floatButterfly5 4.8s ease-in-out infinite alternate 0.8s; }
 
-        @keyframes floatButterfly1 {
-            0% { transform: translate(0, 0) rotate(-5deg); opacity: 0.9; }
-            50% { transform: translate(25px, -30px) rotate(12deg); opacity: 1; }
-            100% { transform: translate(-15px, -50px) rotate(-10deg); opacity: 0.95; }
-        }
-        @keyframes floatButterfly2 {
-            0% { transform: translate(0, 0) rotate(10deg); opacity: 0.85; }
-            50% { transform: translate(-30px, -20px) rotate(-15deg); opacity: 1; }
-            100% { transform: translate(15px, -45px) rotate(8deg); opacity: 0.9; }
-        }
-        @keyframes floatButterfly3 {
-            0% { transform: translate(0, 0) rotate(-8deg); opacity: 0.9; }
-            50% { transform: translate(-20px, -40px) rotate(6deg); opacity: 1; }
-            100% { transform: translate(-35px, -15px) rotate(-12deg); opacity: 0.85; }
-        }
-        @keyframes floatButterfly4 {
-            0% { transform: translate(0, 0) rotate(15deg); opacity: 0.88; }
-            50% { transform: translate(30px, -15px) rotate(-8deg); opacity: 1; }
-            100% { transform: translate(10px, -55px) rotate(10deg); opacity: 0.92; }
-        }
-        @keyframes floatButterfly5 {
-            0% { transform: translate(0, 0) rotate(-12deg); opacity: 0.85; }
-            50% { transform: translate(-15px, -35px) rotate(14deg); opacity: 1; }
-            100% { transform: translate(25px, -25px) rotate(-6deg); opacity: 0.9; }
-        }
+        @keyframes floatButterfly1 { 0% { transform: translate(0, 0) rotate(-5deg); opacity: 0.9; } 50% { transform: translate(25px, -30px) rotate(12deg); opacity: 1; } 100% { transform: translate(-15px, -50px) rotate(-10deg); opacity: 0.95; } }
+        @keyframes floatButterfly2 { 0% { transform: translate(0, 0) rotate(10deg); opacity: 0.85; } 50% { transform: translate(-30px, -20px) rotate(-15deg); opacity: 1; } 100% { transform: translate(15px, -45px) rotate(8deg); opacity: 0.9; } }
+        @keyframes floatButterfly3 { 0% { transform: translate(0, 0) rotate(-8deg); opacity: 0.9; } 50% { transform: translate(-20px, -40px) rotate(6deg); opacity: 1; } 100% { transform: translate(-35px, -15px) rotate(-12deg); opacity: 0.85; } }
 
         .wing-left { transform-origin: 12px 12px; animation: flutterLeft 0.32s ease-in-out infinite alternate; }
         .wing-right { transform-origin: 12px 12px; animation: flutterRight 0.32s ease-in-out infinite alternate; }
@@ -297,7 +311,6 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
             z-index: 100;
         }
 
@@ -345,7 +358,7 @@
         }
 
         .heart-icon { font-size: 28px; color: #ff4d6d; }
-        .card-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #d4a373; margin-bottom: 10px; }
+        .card-title { font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 2.2rem; color: #d4a373; margin-bottom: 10px; }
         .card-text { font-size: 0.95rem; line-height: 1.5; color: #555; min-height: 65px; }
         .card-dots { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; background-color: #ccc; border-radius: 50%; cursor: pointer; }
@@ -367,17 +380,15 @@
 </head>
 <body id="mainBody">
 
-    <!-- Pantalla Inicial con el Girasol exacto y partículas en movimiento -->
+    <button class="music-btn" id="musicBtn">⏸️ Pausa</button>
+
     <div id="welcomeScreen">
+        <div class="welcome-glow"></div>
         <div class="welcome-sunflower-container">
-            <div class="welcome-particle" style="width: 7px; height: 7px; bottom: 10px; left: 30px; animation-duration: 2.2s; animation-delay: 0.2s;"></div>
-            <div class="welcome-particle" style="width: 5px; height: 5px; bottom: 25px; left: 10px; animation-duration: 3.1s; animation-delay: 0.8s;"></div>
-            <div class="welcome-particle" style="width: 8px; height: 8px; bottom: 5px; right: 40px; animation-duration: 2.6s; animation-delay: 0.4s;"></div>
-            <div class="welcome-particle" style="width: 6px; height: 6px; bottom: 35px; right: 15px; animation-duration: 3.5s; animation-delay: 1.1s;"></div>
-            <div class="welcome-particle" style="width: 5px; height: 5px; top: 15px; left: 20px; animation-duration: 2.8s; animation-delay: 0.5s;"></div>
-            <div class="welcome-particle" style="width: 7px; height: 7px; top: 20px; right: 25px; animation-duration: 3.2s; animation-delay: 0.9s;"></div>
-            <div class="welcome-particle" style="width: 4px; height: 4px; bottom: 60px; right: 5px; animation-duration: 2.4s; animation-delay: 0.1s;"></div>
-            <div class="welcome-particle" style="width: 6px; height: 6px; bottom: 50px; left: 5px; animation-duration: 2.9s; animation-delay: 0.7s;"></div>
+            <div class="welcome-particle" style="width: 8px; height: 8px; bottom: 10px; left: 20px; animation-duration: 2.5s; animation-delay: 0.2s;"></div>
+            <div class="welcome-particle" style="width: 6px; height: 6px; bottom: 30px; left: 0px; animation-duration: 3.8s; animation-delay: 0.8s;"></div>
+            <div class="welcome-particle" style="width: 9px; height: 9px; bottom: 5px; right: 30px; animation-duration: 2.9s; animation-delay: 0.4s;"></div>
+            <div class="welcome-particle" style="width: 7px; height: 7px; bottom: 40px; right: 10px; animation-duration: 4.1s; animation-delay: 1.2s;"></div>
 
             <svg class="welcome-sunflower" viewBox="-70 -70 140 140">
                 <defs>
@@ -401,83 +412,53 @@
                 </defs>
                 <g fill="url(#welcomePetalGradBack)" stroke="#332200" stroke-width="0.4">
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(0)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(20)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(40)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(60)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(80)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(100)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(120)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(140)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(160)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(180)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(200)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(220)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(240)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(260)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(280)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(300)" />
                     <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(320)" />
-                    <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(340)" />
                 </g>
                 <g fill="url(#welcomePetalGradFront)" stroke="#332200" stroke-width="0.4" transform="scale(0.88)">
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(10)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(30)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(50)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(70)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(90)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(110)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(130)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(150)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(170)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(190)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(210)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(230)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(250)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(270)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(290)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(310)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(330)" />
-                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(350)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(20)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(60)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(100)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(140)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(180)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(220)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(260)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(300)" />
+                    <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(340)" />
                 </g>
                 <circle cx="0" cy="0" r="27" fill="#000000" opacity="0.8"/>
                 <circle cx="0" cy="0" r="24" fill="url(#welcomeCenterGrad)" stroke="#1a0a00" stroke-width="1.5"/>
-                <circle cx="0" cy="0" r="19" stroke="#d35400" stroke-width="1.2" stroke-dasharray="2 2" fill="none" opacity="0.5"/>
             </svg>
         </div>
-        <div class="welcome-text">Toca para iniciar</div>
+        <div class="welcome-card">
+            <div class="welcome-text">Toca para abrir ✨</div>
+        </div>
     </div>
 
     <canvas id="spaceCanvas"></canvas>
 
     <div class="header">
         <h1 class="title-main">Feliz día de las flores amarillas</h1>
-        <h2 class="title-sub">Ten tu ramo bonita</h2>
     </div>
 
     <div class="stage">
         <svg class="bouquet-svg" viewBox="0 0 400 500">
             <defs>
-                <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.6"/>
-                </filter>
-                <filter id="petalShadow" x="-10%" y="-10%" width="120%" height="120%">
-                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.7"/>
-                </filter>
                 <linearGradient id="petalGradBack" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stop-color="#121212"/>
-                    <stop offset="15%" stop-color="#3d3d3d"/>
                     <stop offset="32%" stop-color="#ff9900"/>
-                    <stop offset="60%" stop-color="#ffcc00"/>
                     <stop offset="85%" stop-color="#ffea00"/>
-                    <stop offset="100%" stop-color="#ffff55"/>
                 </linearGradient>
                 <linearGradient id="petalGradFront" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stop-color="#1a1a1a"/>
-                    <stop offset="18%" stop-color="#4a4a4a"/>
                     <stop offset="35%" stop-color="#ffaa00"/>
-                    <stop offset="68%" stop-color="#ffea00"/>
                     <stop offset="90%" stop-color="#ffff33"/>
-                    <stop offset="100%" stop-color="#ffffff"/>
                 </linearGradient>
                 <linearGradient id="pinkRibbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#ffc0cb"/>
@@ -490,121 +471,87 @@
                 </linearGradient>
                 <linearGradient id="grassGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stop-color="#000000"/>
-                    <stop offset="12%" stop-color="#0e3a24"/>
                     <stop offset="48%" stop-color="#2d7a4d"/>
-                    <stop offset="78%" stop-color="#52b788"/>
                     <stop offset="100%" stop-color="#b7e4c7"/>
                 </linearGradient>
                 <linearGradient id="grassGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stop-color="#000000"/>
-                    <stop offset="12%" stop-color="#0a2e1c"/>
                     <stop offset="50%" stop-color="#1b5e37"/>
-                    <stop offset="82%" stop-color="#40916c"/>
                     <stop offset="100%" stop-color="#95d5b2"/>
                 </linearGradient>
                 <radialGradient id="centerGrad3D" cx="40%" cy="40%" r="60%">
                     <stop offset="0%" stop-color="#4a2810"/>
                     <stop offset="50%" stop-color="#2a1405"/>
-                    <stop offset="85%" stop-color="#150a02"/>
                     <stop offset="100%" stop-color="#050200"/>
                 </radialGradient>
                 <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
                     <stop offset="0%" stop-color="#1b5e37"/>
-                    <stop offset="50%" stop-color="#2d7a4d"/>
                     <stop offset="100%" stop-color="#52b788"/>
                 </linearGradient>
                 <linearGradient id="pinkWhiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#ffffff"/>
-                    <stop offset="35%" stop-color="#fff0f5"/>
-                    <stop offset="65%" stop-color="#ffb6c1"/>
                     <stop offset="100%" stop-color="#ff1493"/>
                 </linearGradient>
-                <g id="leaf3D" class="leaf-element" filter="url(#shadow3d)">
+                <g id="leaf3D">
                     <path d="M 0 0 C -25 -15, -35 -50, 0 -65 C 35 -50, 25 -15, 0 0 Z" fill="url(#leafGrad)" stroke="#114b29" stroke-width="1.2"/>
                     <path d="M 0 0 L 0 -60" stroke="#74c69d" stroke-width="1.5" opacity="0.8"/>
                 </g>
                 <g id="grass1"><path d="M 0 0 Q -5 -40 -10 -80 Q 2 -40 0 0" fill="url(#grassGrad1)"/></g>
                 <g id="grass2"><path d="M 0 0 Q -10 -35 -20 -70 Q -4 -40 0 0" fill="url(#grassGrad2)"/><path d="M 0 0 Q 8 -45 15 -85 Q 2 -45 0 0" fill="url(#grassGrad1)"/></g>
                 <g id="grass3"><path d="M 0 0 Q -12 -30 -22 -60 Q -5 -35 0 0" fill="url(#grassGrad2)"/><path d="M 0 0 Q 0 -50 0 -95 Q 3 -50 0 0" fill="url(#grassGrad1)"/><path d="M 0 0 Q 10 -35 20 -70 Q 4 -35 0 0" fill="url(#grassGrad2)"/></g>
-                <g id="grass4"><path d="M 0 0 Q -15 -35 -30 -70 Q -8 -45 0 0" fill="url(#grassGrad2)"/><path d="M 0 0 Q -7 -50 -15 -95 Q -2 -50 0 0" fill="url(#grassGrad1)"/><path d="M 0 0 Q 0 -60 0 -115 Q 4 -60 0 0" fill="url(#grassGrad1)"/><path d="M 0 0 Q 7 -50 15 -90 Q 2 -50 0 0" fill="url(#grassGrad2)"/></g>
 
-                <g id="sunflower3D" filter="url(#shadow3d)">
+                <g id="sunflower3D">
                     <g class="yellow-petals">
-                        <g fill="url(#petalGradBack)" stroke="#000000" stroke-width="0.5" filter="url(#petalShadow)">
+                        <g fill="url(#petalGradBack)" stroke="#000000" stroke-width="0.5">
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(0)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(20)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(40)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(30)" />
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(60)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(80)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(100)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(90)" />
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(120)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(140)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(160)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(150)" />
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(180)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(200)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(220)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(210)" />
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(240)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(260)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(280)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(270)" />
                             <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(300)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(320)" />
-                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(340)" />
+                            <path d="M -7 -10 C -14 -35, -9 -60, 0 -70 C 9 -60, 14 -35, 7 -10 Z" transform="rotate(330)" />
                         </g>
                         <g fill="url(#petalGradFront)" stroke="#332200" stroke-width="0.5" transform="scale(0.9)">
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(10)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(30)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(50)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(70)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(90)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(110)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(130)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(150)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(170)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(190)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(210)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(230)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(250)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(270)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(290)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(310)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(330)" />
-                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(350)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(15)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(45)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(75)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(105)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(135)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(165)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(195)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(225)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(255)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(285)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(315)" />
+                            <path d="M -6 -12 C -12 -35, -7 -58, 0 -67 C 7 -58, 12 -35, 6 -12 Z" transform="rotate(345)" />
                         </g>
                     </g>
                     <g class="brown-center">
                         <circle cx="0" cy="0" r="30" fill="#000000" opacity="0.85"/>
                         <circle cx="0" cy="0" r="27" fill="url(#centerGrad3D)" stroke="#1a0a00" stroke-width="2"/>
-                        <circle cx="0" cy="0" r="22" stroke="#d35400" stroke-width="1.5" stroke-dasharray="3 3" fill="none" opacity="0.4"/>
-                        <circle cx="0" cy="0" r="15" stroke="#f1c40f" stroke-width="1" stroke-dasharray="2 2" fill="none" opacity="0.3"/>
                     </g>
                 </g>
             </defs>
 
             <g class="grass-layer">
-                <g class="sway-grass-1"><use href="#grass2" transform="translate(70, 400) scale(0.6) rotate(-8)"/></g>
-                <g class="sway-grass-2"><use href="#grass1" transform="translate(135, 390) scale(0.55) rotate(10)"/></g>
-                <g class="sway-grass-3"><use href="#grass3" transform="translate(265, 395) scale(0.6) rotate(-6)"/></g>
-                <g class="sway-grass-1"><use href="#grass2" transform="translate(325, 405) scale(0.65) rotate(12)"/></g>
-                <g class="sway-grass-1"><use href="#grass1" transform="translate(45, 435) scale(0.65) rotate(-12)"/></g>
-                <g class="sway-grass-2"><use href="#grass2" transform="translate(100, 420) scale(0.75) rotate(8)"/></g>
-                <g class="sway-grass-3"><use href="#grass3" transform="translate(170, 415) scale(0.7) rotate(-4)"/></g>
-                <g class="sway-grass-1"><use href="#grass1" transform="translate(235, 418) scale(0.65) rotate(6)"/></g>
-                <g class="sway-grass-3"><use href="#grass3" transform="translate(295, 425) scale(0.7) rotate(-6)"/></g>
-                <g class="sway-grass-1"><use href="#grass1" transform="translate(355, 435) scale(0.75) rotate(14)"/></g>
-                <g class="sway-grass-2"><use href="#grass3" transform="translate(20, 465) scale(0.85) rotate(-10)"/></g>
-                <g class="sway-grass-3"><use href="#grass4" transform="translate(80, 458) scale(0.95) rotate(5)"/></g>
-                <g class="sway-grass-1"><use href="#grass2" transform="translate(150, 450) scale(0.8) rotate(-4)"/></g>
-                <g class="sway-grass-2"><use href="#grass1" transform="translate(220, 452) scale(0.75) rotate(6)"/></g>
-                <g class="sway-grass-3"><use href="#grass4" transform="translate(305, 460) scale(0.9) rotate(-8)"/></g>
-                <g class="sway-grass-1"><use href="#grass2" transform="translate(370, 465) scale(0.8) rotate(10)"/></g>
-                <g class="sway-grass-2"><use href="#grass2" transform="translate(55, 495) scale(0.9) rotate(4)"/></g>
-                <g class="sway-grass-3"><use href="#grass1" transform="translate(130, 490) scale(0.8) rotate(-8)"/></g>
-                <g class="sway-grass-1"><use href="#grass3" transform="translate(205, 485) scale(0.95) rotate(7)"/></g>
-                <g class="sway-grass-2"><use href="#grass2" transform="translate(270, 492) scale(0.8) rotate(-12)"/></g>
-                <g class="sway-grass-3"><use href="#grass1" transform="translate(330, 498) scale(0.75) rotate(3)"/></g>
+                <g class="g-stem g1"><g class="sway-grass-1"><use href="#grass2" transform="translate(70, 400) scale(0.6) rotate(-8)"/></g></g>
+                <g class="g-stem g2"><g class="sway-grass-2"><use href="#grass1" transform="translate(135, 390) scale(0.55) rotate(10)"/></g></g>
+                <g class="g-stem g3"><g class="sway-grass-3"><use href="#grass3" transform="translate(265, 395) scale(0.6) rotate(-6)"/></g></g>
+                <g class="g-stem g5"><g class="sway-grass-1"><use href="#grass1" transform="translate(45, 435) scale(0.65) rotate(-12)"/></g></g>
+                <g class="g-stem g6"><g class="sway-grass-2"><use href="#grass2" transform="translate(100, 420) scale(0.75) rotate(8)"/></g></g>
+                <g class="g-stem g7"><g class="sway-grass-3"><use href="#grass3" transform="translate(170, 415) scale(0.7) rotate(-4)"/></g></g>
+                <g class="g-stem g9"><g class="sway-grass-3"><use href="#grass3" transform="translate(295, 425) scale(0.7) rotate(-6)"/></g></g>
+                <g class="g-stem g11"><g class="sway-grass-2"><use href="#grass3" transform="translate(20, 465) scale(0.85) rotate(-10)"/></g></g>
+                <g class="g-stem g13"><g class="sway-grass-1"><use href="#grass2" transform="translate(150, 450) scale(0.8) rotate(-4)"/></g></g>
+                <g class="g-stem g17"><g class="sway-grass-2"><use href="#grass2" transform="translate(55, 495) scale(0.9) rotate(4)"/></g></g>
+                <g class="g-stem g19"><g class="sway-grass-1"><use href="#grass3" transform="translate(205, 485) scale(0.95) rotate(7)"/></g></g>
             </g>
 
-            <!-- Girasoles secuenciales (uno tras otro) -->
             <g class="flower-group f1"><g class="sway-flower-1"><path class="stem-path" d="M 200 480 L 200 290" stroke="#2e7d32" stroke-width="10" stroke-linecap="round"/><use href="#leaf3D" transform="translate(192, 380) scale(0.7) rotate(-45)"/><use href="#leaf3D" transform="translate(208, 350) scale(0.7) rotate(45)"/><g transform="translate(200, 290) scale(0.95)"><use href="#sunflower3D"/></g></g></g>
             <g class="flower-group f2"><g class="sway-flower-2"><path class="stem-path" d="M 200 480 Q 155 370 120 230" stroke="#2e7d32" stroke-width="9" stroke-linecap="round"/><use href="#leaf3D" transform="translate(145, 350) scale(0.8) rotate(-60)"/><use href="#leaf3D" transform="translate(125, 290) scale(0.7) rotate(25)"/><g transform="translate(120, 230) scale(0.9)"><use href="#sunflower3D"/></g></g></g>
             <g class="flower-group f3"><g class="sway-flower-3"><path class="stem-path" d="M 200 480 Q 245 370 280 240" stroke="#2e7d32" stroke-width="9" stroke-linecap="round"/><use href="#leaf3D" transform="translate(255, 360) scale(0.8) rotate(60)"/><use href="#leaf3D" transform="translate(275, 300) scale(0.7) rotate(-25)"/><g transform="translate(280, 240) scale(0.9)"><use href="#sunflower3D"/></g></g></g>
@@ -630,9 +577,7 @@
 
         <svg class="butterfly butterfly-1" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 C22,6 16,4 12,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
         <svg class="butterfly butterfly-2" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 C22,6 16,4 12,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
-        <svg class="butterfly butterfly-3" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 C22,6 16,4 12,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
-        <svg class="butterfly butterfly-4" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 C22,6 16,4 12,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
-        <svg class="butterfly butterfly-5" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
+        <svg class="butterfly butterfly-3" viewBox="0 0 24 24"><path class="wing-left" d="M12,12 C8,4 2,6 4,12 C2,18 8,20 12,12 Z" fill="url(#pinkWhiteGrad)"/><path class="wing-right" d="M12,12 C16,20 22,18 20,12 Z" fill="url(#pinkWhiteGrad)"/></svg>
     </div>
 
     <div class="gift-btn" id="openModalBtn">
@@ -662,19 +607,31 @@
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth < 768);
+
+        let width = 0;
+        let height = 0;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+        }
+
+        resizeCanvas();
 
         window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            resizeCanvas();
             initUniverse();
         });
 
         const stars = [];
         const cosmicDust = [];
-        const STAR_COUNT = 90;
-        const DUST_COUNT = 15;
+        const STAR_COUNT = isMobile ? 40 : 80;
+        const DUST_COUNT = isMobile ? 8 : 15;
         let universeActive = false;
 
         const colors = [
@@ -703,10 +660,7 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = this.color + this.alpha + ')';
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = 'rgba(255, 255, 255, 0.7)';
                 ctx.fill();
-                ctx.shadowBlur = 0;
             }
         }
 
@@ -730,35 +684,361 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = this.color + Math.max(0, Math.min(0.6, this.alpha)) + ')';
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = this.color + '0.5)';
                 ctx.fill();
-                ctx.shadowBlur = 0;
             }
         }
+
+        class AssemblingEyeSystem {
+            constructor() {
+                this.particles = [];
+                this.blinkProgress = 0;
+                this.isBlinking = false;
+                this.blinkTimer = 0;
+                this.nextBlink = Math.random() * 80 + 50; 
+                
+                this.isAssembling = false;
+                this.assemblyProgress = 0;
+                this.isFullyFormed = false;
+
+                this.createEyeParticles();
+            }
+
+            startAssembly() {
+                this.isAssembling = true;
+            }
+
+            createEyeParticles() {
+                this.particles = [];
+                const centerX = width / 2;
+                const centerY = height * 0.38;
+                const eyeSpacing = Math.min(width * 0.28, 110);
+                const eyeWidth = Math.min(width * 0.22, 85);
+                const eyeHeight = eyeWidth * 0.42;
+
+                [ -eyeSpacing, eyeSpacing ].forEach((sideX, eyeIndex) => {
+                    const isRight = eyeIndex === 1;
+
+                    // 1. Pestañas Femeninas
+                    const upperLashCount = isMobile ? 80 : 130;
+                    for (let i = 0; i < upperLashCount; i++) {
+                        const t = i / upperLashCount;
+                        const rx = -eyeWidth * 1.08 + t * (eyeWidth * 2.16);
+                        const ry = -Math.sin(t * Math.PI) * (eyeHeight * 1.5);
+
+                        const outerWeight = isRight ? t : (1 - t);
+                        const lashLength = Math.pow(outerWeight, 1.2) * 24 + 6;
+                        const lashAngle = (t - 0.5) * (isRight ? 1.25 : -1.25) - 1.25;
+
+                        const isLashTip = Math.random() > 0.35;
+                        const finalRx = rx + (isLashTip ? Math.cos(lashAngle) * lashLength : 0);
+                        const finalRy = ry + (isLashTip ? Math.sin(lashAngle) * lashLength : 0);
+
+                        this.addParticle({
+                            targetX: centerX + sideX + finalRx,
+                            targetY: centerY + finalRy,
+                            relX: finalRx,
+                            relY: finalRy,
+                            eyeX: sideX,
+                            isPupil: false,
+                            radius: isLashTip ? (Math.random() * 0.9 + 0.4) : (Math.random() * 1.5 + 0.7),
+                            color: 'rgba(255, 255, 255, ',
+                            targetAlpha: Math.random() * 0.8 + 0.2,
+                            type: 'lash'
+                        });
+                    }
+
+                    // 2. Línea Inferior Almendrada
+                    const lowerLashCount = isMobile ? 25 : 45;
+                    for (let i = 0; i < lowerLashCount; i++) {
+                        const t = i / lowerLashCount;
+                        const rx = -eyeWidth * 0.95 + t * (eyeWidth * 1.9);
+                        const ry = Math.sin(t * Math.PI) * (eyeHeight * 0.6);
+
+                        this.addParticle({
+                            targetX: centerX + sideX + rx,
+                            targetY: centerY + ry,
+                            relX: rx,
+                            relY: ry,
+                            eyeX: sideX,
+                            isPupil: false,
+                            radius: Math.random() * 1.1 + 0.4,
+                            color: 'rgba(255, 255, 255, ',
+                            targetAlpha: Math.random() * 0.6 + 0.2,
+                            type: 'lower'
+                        });
+                    }
+
+                    // 3. PUPILAS VERDES RESPLANDECIENTES
+                    const pupilParticleCount = isMobile ? 65 : 110;
+                    const pupilRadius = eyeHeight * 0.8;
+
+                    for (let i = 0; i < pupilParticleCount; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const r = Math.sqrt(Math.random()) * pupilRadius;
+                        const rx = Math.cos(angle) * r;
+                        const ry = Math.sin(angle) * r;
+
+                        const isCenterBright = r < pupilRadius * 0.35;
+
+                        this.addParticle({
+                            targetX: centerX + sideX + rx,
+                            targetY: centerY + ry,
+                            relX: rx,
+                            relY: ry,
+                            eyeX: sideX,
+                            isPupil: true,
+                            radius: isCenterBright ? (Math.random() * 1.5 + 0.8) : (Math.random() * 1.1 + 0.4),
+                            color: isCenterBright ? 'rgba(0, 255, 180, ' : 'rgba(16, 185, 129, ',
+                            targetAlpha: Math.random() * 0.7 + 0.3,
+                            type: 'pupil'
+                        });
+                    }
+
+                    // 4. ESTRELLA BRILLANTE EN EL CENTRO DE LA PUPILA
+                    const starArmPoints = 20;
+                    const starSize = pupilRadius * 0.85;
+
+                    for (let i = 0; i < starArmPoints; i++) {
+                        const isHorizontal = i % 2 === 0;
+                        const dist = (Math.random() * 0.8 + 0.2) * starSize;
+                        const rx = isHorizontal ? (Math.random() > 0.5 ? dist : -dist) : 0;
+                        const ry = !isHorizontal ? (Math.random() > 0.5 ? dist : -dist) : 0;
+
+                        this.addParticle({
+                            targetX: centerX + sideX + rx,
+                            targetY: centerY + ry,
+                            relX: rx,
+                            relY: ry,
+                            eyeX: sideX,
+                            isPupil: true,
+                            isStarCore: true,
+                            radius: Math.random() * 1.2 + 0.8,
+                            color: 'rgba(255, 255, 255, ',
+                            targetAlpha: 1.0,
+                            type: 'star'
+                        });
+                    }
+
+                    // 5. Ceja Femenina
+                    const browCount = isMobile ? 30 : 50;
+                    const eyebrowY = -eyeHeight * 1.8;
+                    for (let i = 0; i < browCount; i++) {
+                        const t = i / browCount;
+                        const rx = -eyeWidth * 1.05 + t * (eyeWidth * 2.1);
+                        const arch = Math.sin(t * Math.PI) * 15;
+                        const tailDrop = (isRight ? (t - 0.5) : (0.5 - t)) * 5;
+                        const ry = eyebrowY - arch + tailDrop;
+
+                        this.addParticle({
+                            targetX: centerX + sideX + rx,
+                            targetY: centerY + ry,
+                            relX: rx,
+                            relY: ry,
+                            eyeX: sideX,
+                            isPupil: false,
+                            radius: Math.random() * 0.9 + 0.4,
+                            color: 'rgba(255, 255, 255, ',
+                            targetAlpha: Math.random() * 0.5 + 0.15,
+                            type: 'brow'
+                        });
+                    }
+                });
+            }
+
+            addParticle(config) {
+                const startX = Math.random() * width;
+                const startY = Math.random() * height;
+
+                this.particles.push({
+                    x: startX,
+                    y: startY,
+                    startX: startX,
+                    startY: startY,
+                    targetX: config.targetX,
+                    targetY: config.targetY,
+                    relX: config.relX,
+                    relY: config.relY,
+                    baseRelY: config.relY,
+                    eyeX: config.eyeX,
+                    isPupil: config.isPupil,
+                    isStarCore: config.isStarCore || false,
+                    radius: config.radius,
+                    color: config.color,
+                    targetAlpha: config.targetAlpha,
+                    currentAlpha: Math.random() * 0.3 + 0.1,
+                    twinkleSpeed: Math.random() * 0.03 + 0.015,
+                    type: config.type,
+                    delay: Math.random() * 30,
+                    travelProgress: 0,
+                    speed: Math.random() * 0.04 + 0.025
+                });
+            }
+
+            update() {
+                const centerX = width / 2;
+                const centerY = height * 0.38;
+
+                if (this.isAssembling) {
+                    this.assemblyProgress++;
+                }
+
+                if (this.isAssembling && !this.isFullyFormed) {
+                    const allArrived = this.particles.every(p => p.travelProgress >= 1);
+                    if (allArrived) {
+                        this.isFullyFormed = true;
+                        this.isBlinking = true;
+                        this.blinkProgress = 0;
+                    }
+                }
+
+                if (this.isFullyFormed) {
+                    if (!this.isBlinking) {
+                        this.blinkTimer++;
+                        if (this.blinkTimer >= this.nextBlink) {
+                            this.isBlinking = true;
+                            this.blinkTimer = 0;
+                        }
+                    }
+
+                    if (this.isBlinking) {
+                        this.blinkProgress += 0.09; 
+                        if (this.blinkProgress >= Math.PI) {
+                            this.blinkProgress = 0;
+                            this.isBlinking = false;
+                            this.nextBlink = Math.random() * 100 + 70; 
+                        }
+                    }
+                }
+
+                const rawBlink = Math.sin(this.blinkProgress);
+                const smoothBlink = rawBlink * rawBlink * (3 - 2 * rawBlink);
+                const blinkFactor = 1 - smoothBlink;
+
+                this.particles.forEach(p => {
+                    if (this.isAssembling && this.assemblyProgress > p.delay) {
+                        if (p.travelProgress < 1) {
+                            p.travelProgress += p.speed;
+                            if (p.travelProgress > 1) p.travelProgress = 1;
+
+                            const ease = 1 - Math.pow(1 - p.travelProgress, 3);
+                            
+                            p.targetX = centerX + p.eyeX + p.relX;
+                            p.targetY = centerY + p.relY;
+
+                            const shakeIntensity = (1 - p.travelProgress) * 3.5;
+                            const shakeX = (Math.random() - 0.5) * shakeIntensity;
+                            const shakeY = (Math.random() - 0.5) * shakeIntensity;
+
+                            p.x = p.startX + (p.targetX - p.startX) * ease + shakeX;
+                            p.y = p.startY + (p.targetY - p.startY) * ease + shakeY;
+
+                            p.currentAlpha = p.targetAlpha * ease;
+                        } else {
+                            if (p.type !== 'brow') {
+                                p.relY = p.baseRelY * blinkFactor;
+                            }
+                            p.x = centerX + p.eyeX + p.relX;
+                            p.y = centerY + p.relY;
+
+                            p.targetAlpha += p.twinkleSpeed;
+                            if (p.targetAlpha >= 0.95 || p.targetAlpha <= 0.2) p.twinkleSpeed *= -1;
+                            p.currentAlpha = p.targetAlpha;
+                        }
+                    } else {
+                        p.currentAlpha += p.twinkleSpeed * 0.3;
+                        if (p.currentAlpha >= 0.5 || p.currentAlpha <= 0.05) p.twinkleSpeed *= -1;
+                    }
+                });
+            }
+
+            draw() {
+                const centerX = width / 2;
+                const centerY = height * 0.38;
+
+                if (this.assemblyProgress > 20) {
+                    const glowOpacity = Math.min(1, (this.assemblyProgress - 20) / 40);
+                    const eyeSpacing = Math.min(width * 0.28, 110);
+                    [centerX - eyeSpacing, centerX + eyeSpacing].forEach(eX => {
+                        const glowGrad = ctx.createRadialGradient(eX, centerY, 2, eX, centerY, 75);
+                        glowGrad.addColorStop(0, `rgba(0, 255, 180, ${0.4 * glowOpacity})`);
+                        glowGrad.addColorStop(0.4, `rgba(16, 185, 129, ${0.18 * glowOpacity})`);
+                        glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                        ctx.fillStyle = glowGrad;
+                        ctx.beginPath();
+                        ctx.arc(eX, centerY, 75, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        if (this.assemblyProgress > 40) {
+                            const rawBlink = Math.sin(this.blinkProgress);
+                            const smoothBlink = rawBlink * rawBlink * (3 - 2 * rawBlink);
+                            const starAlpha = Math.min(1, (this.assemblyProgress - 40) / 30) * (1 - smoothBlink);
+                            const starRadius = 14;
+
+                            ctx.save();
+                            ctx.translate(eX, centerY);
+
+                            ctx.beginPath();
+                            ctx.moveTo(-starRadius, 0);
+                            ctx.quadraticCurveTo(0, 0, starRadius, 0);
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${starAlpha})`;
+                            ctx.lineWidth = 2.5;
+                            ctx.stroke();
+
+                            ctx.beginPath();
+                            ctx.moveTo(0, -starRadius);
+                            ctx.quadraticCurveTo(0, 0, 0, starRadius);
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${starAlpha})`;
+                            ctx.lineWidth = 2.5;
+                            ctx.stroke();
+
+                            ctx.beginPath();
+                            ctx.arc(0, 0, 3, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(255, 255, 255, ${starAlpha})`;
+                            ctx.fill();
+
+                            ctx.restore();
+                        }
+                    });
+                }
+
+                this.particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + Math.max(0, Math.min(1, p.currentAlpha)) + ')';
+                    ctx.fill();
+                });
+            }
+        }
+
+        let eyeBackground = new AssemblingEyeSystem();
 
         function initUniverse() {
             stars.length = 0;
             cosmicDust.length = 0;
             for (let i = 0; i < STAR_COUNT; i++) stars.push(new Star());
             for (let i = 0; i < DUST_COUNT; i++) cosmicDust.push(new CosmicParticle());
+            eyeBackground = new AssemblingEyeSystem();
         }
 
-        function animateUniverse() {
-            if (!universeActive) return;
-            ctx.clearRect(0, 0, width, height);
+        let lastFrameTime = 0;
+        const fpsInterval = 1000 / 60;
 
-            const nebulaGrad = ctx.createRadialGradient(width / 2, height / 2, width * 0.1, width / 2, height / 2, width * 0.7);
-            nebulaGrad.addColorStop(0, 'rgba(25, 12, 40, 0.25)');
-            nebulaGrad.addColorStop(0.6, 'rgba(8, 4, 20, 0.15)');
-            nebulaGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = nebulaGrad;
-            ctx.fillRect(0, 0, width, height);
+        function animateUniverse(timestamp) {
+            if (!universeActive) return;
+
+            requestAnimationFrame(animateUniverse);
+
+            const elapsed = timestamp - lastFrameTime;
+            if (elapsed < fpsInterval) return;
+            lastFrameTime = timestamp - (elapsed % fpsInterval);
+
+            ctx.clearRect(0, 0, width, height);
 
             stars.forEach(star => { star.update(); star.draw(); });
             cosmicDust.forEach(dust => { dust.update(); dust.draw(); });
 
-            requestAnimationFrame(animateUniverse);
+            eyeBackground.update();
+            eyeBackground.draw();
         }
 
         initUniverse();
@@ -767,10 +1047,19 @@
         const mainBody = document.getElementById('mainBody');
 
         welcomeScreen.addEventListener('click', () => {
-            welcomeScreen.classList.add('fade-out');
-            mainBody.classList.add('start-animations');
-            universeActive = true;
-            animateUniverse();
+            welcomeScreen.classList.add('spin-out');
+            startPianoMusic();
+
+            setTimeout(() => {
+                welcomeScreen.classList.add('fade-out');
+                mainBody.classList.add('start-animations');
+                universeActive = true;
+                requestAnimationFrame(animateUniverse);
+
+                setTimeout(() => {
+                    eyeBackground.startAssembly();
+                }, 7200);
+            }, 600);
         });
 
         const openModalBtn = document.getElementById('openModalBtn');
@@ -806,81 +1095,109 @@
             }
         });
 
+        /* --- SINTETIZADOR DE PIANO ALEGRE, ROMÁNTICO Y DE AMOR --- */
         const musicBtn = document.getElementById('musicBtn');
         let audioCtx = null;
         let isPlaying = false;
-        let interstellarInterval = null;
+        let romanticPianoTimeout = null;
 
-        const NOTE_FREQ = {
-            'A3': 220.00, 'B3': 246.94, 'C4': 261.63, 'D4': 293.66, 'E4': 329.63,
-            'F4': 349.23, 'G4': 392.00, 'A4': 440.00, 'B4': 493.88, 'C5': 523.25,
-            'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99, 'A5': 880.00
+        const PIANO_NOTES = {
+            'C3': 130.81, 'E3': 164.81, 'G3': 196.00, 'B3': 246.94,
+            'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00, 'A4': 440.00, 'B4': 493.88,
+            'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99, 'A5': 880.00, 'B5': 987.77, 'C6': 1046.50
         };
 
-        const interstellarSequence = [
-            { main: 'E5', bass: 'A3', dur: 0.65 }, { main: 'A4', bass: null, dur: 0.65 },
-            { main: 'E5', bass: null, dur: 0.65 }, { main: 'A4', bass: null, dur: 0.65 },
-            { main: 'C5', bass: 'F4', dur: 0.65 }, { main: 'F4', bass: null, dur: 0.65 },
-            { main: 'C5', bass: null, dur: 0.65 }, { main: 'F4', bass: null, dur: 0.65 },
-            { main: 'E5', bass: 'C4', dur: 0.65 }, { main: 'G4', bass: null, dur: 0.65 },
-            { main: 'E5', bass: null, dur: 0.65 }, { main: 'G4', bass: null, dur: 0.65 },
-            { main: 'D5', bass: 'G3', dur: 0.65 }, { main: 'G4', bass: null, dur: 0.65 },
-            { main: 'D5', bass: null, dur: 0.65 }, { main: 'B4', bass: null, dur: 0.65 }
+        /* Melodía viva, risueña y llena de sentimiento romántico */
+        const joyfulLoveSong = [
+            { notes: ['C4', 'E4', 'G4', 'C5'], duration: 450, style: 'arpeggio' },
+            { notes: ['E5'], duration: 350, style: 'melody' },
+            { notes: ['G5'], duration: 350, style: 'melody' },
+            { notes: ['C6'], duration: 700, style: 'melody' },
+            { notes: ['B5'], duration: 350, style: 'melody' },
+            { notes: ['A5'], duration: 350, style: 'melody' },
+            { notes: ['G5'], duration: 700, style: 'melody' },
+
+            { notes: ['F3', 'A3', 'C4', 'F4'], duration: 450, style: 'arpeggio' },
+            { notes: ['A5'], duration: 350, style: 'melody' },
+            { notes: ['C6'], duration: 350, style: 'melody' },
+            { notes: ['B5'], duration: 500, style: 'melody' },
+            { notes: ['A5'], duration: 400, style: 'melody' },
+            { notes: ['G5'], duration: 800, style: 'melody' },
+
+            { notes: ['G3', 'B3', 'D4', 'G4'], duration: 450, style: 'arpeggio' },
+            { notes: ['D5'], duration: 350, style: 'melody' },
+            { notes: ['F5'], duration: 350, style: 'melody' },
+            { notes: ['E5'], duration: 450, style: 'melody' },
+            { notes: ['D5'], duration: 450, style: 'melody' },
+            { notes: ['C5'], duration: 900, style: 'melody' }
         ];
 
-        function playOrganTone(freq, duration, volume = 0.08, isBass = false) {
+        function playPianoKey(freq, duration, volume = 0.14) {
             if (!freq || !audioCtx) return;
             const now = audioCtx.currentTime;
-            const osc1 = audioCtx.createOscillator();
-            const osc2 = audioCtx.createOscillator();
+
+            const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            const filter = audioCtx.createBiquadFilter();
 
-            osc1.type = isBass ? 'triangle' : 'sawtooth';
-            osc2.type = 'sine';
-            osc1.frequency.setValueAtTime(freq, now);
-            osc2.frequency.setValueAtTime(freq * (isBass ? 0.5 : 2.0), now);
+            /* Onda dulce de piano eléctrico/acústico */
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now);
 
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(isBass ? 400 : 1800, now);
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(volume, now + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + (duration / 1000) + 0.9);
 
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(volume, now + 0.08);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 1.2);
-
-            osc1.connect(filter);
-            osc2.connect(filter);
-            filter.connect(gain);
+            osc.connect(gain);
             gain.connect(audioCtx.destination);
 
-            osc1.start(now);
-            osc2.start(now);
-            osc1.stop(now + duration + 1.3);
-            osc2.stop(now + duration + 1.3);
+            osc.start(now);
+            osc.stop(now + (duration / 1000) + 1.0);
         }
 
-        function playInterstellarTheme() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            let seqIndex = 0;
-            interstellarInterval = setInterval(() => {
-                if (!isPlaying) return;
-                const noteData = interstellarSequence[seqIndex];
-                const mainFreq = NOTE_FREQ[noteData.main];
-                const bassFreq = noteData.bass ? (NOTE_FREQ[noteData.bass] || NOTE_FREQ['G4'] * 0.5) : null;
+        let songIndex = 0;
 
-                playOrganTone(mainFreq, noteData.dur, 0.07, false);
-                if (bassFreq) playOrganTone(bassFreq, noteData.dur * 3.5, 0.12, true);
+        function playNextPianoPhrase() {
+            if (!isPlaying) return;
 
-                seqIndex = (seqIndex + 1) % interstellarSequence.length;
-            }, 380);
+            const phrase = joyfulLoveSong[songIndex];
+
+            if (phrase.style === 'arpeggio') {
+                phrase.notes.forEach((noteName, idx) => {
+                    setTimeout(() => {
+                        if (isPlaying) {
+                            playPianoKey(PIANO_NOTES[noteName], phrase.duration, 0.10);
+                        }
+                    }, idx * 95);
+                });
+            } else {
+                playPianoKey(PIANO_NOTES[phrase.notes[0]], phrase.duration, 0.16);
+            }
+
+            songIndex = (songIndex + 1) % joyfulLoveSong.length;
+            romanticPianoTimeout = setTimeout(playNextPianoPhrase, phrase.duration);
+        }
+
+        function startPianoMusic() {
+            if (isPlaying) return;
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            songIndex = 0;
+            isPlaying = true;
+            musicBtn.innerText = "⏸️ Pausa";
+            playNextPianoPhrase();
         }
 
         musicBtn.addEventListener('click', () => {
             if (!isPlaying) {
+                startPianoMusic();
             } else {
                 isPlaying = false;
-
-                if (interstellarInterval) clearInterval(interstellarInterval);
+                musicBtn.innerText = "🎵 Música";
+                if (romanticPianoTimeout) clearTimeout(romanticPianoTimeout);
             }
         });
     </script>
